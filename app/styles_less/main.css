@@ -1,5 +1,6 @@
 #header {
   color: #4d926f;
+  background: url(../images/BC3-Icon-102507.png);
 }
 h1 {
   font-size: 51px;
@@ -11,5 +12,17 @@ h2 {
 }
 h3 {
   font-size: 15px;
+  color: #4d926f;
+}
+h4 {
+  font-size: 45px;
+  color: #4d926f;
+}
+h5 {
+  font-size: 35px;
+  color: #4d926f;
+}
+h6 {
+  font-size: 25px;
   color: #4d926f;
 }

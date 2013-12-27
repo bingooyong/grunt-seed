@@ -55,7 +55,7 @@ module.exports = function (grunt) {
                     {
                         context: '/api',
                         host: 'localhost',
-                        port: 18001
+                        port: 7001
                     },
                     {
                         context: '/',
@@ -107,8 +107,9 @@ module.exports = function (grunt) {
         // concat, minify and revision files. Creates configurations in memory so
         // additional tasks can operate on them
         useminPrepare: {
-            html: '<%= yeoman.app %>/index.html',
+            html: '<%= yeoman.app %>/{,*/}*.html',
             options: {
+                root: '<%= yeoman.dist %>',
                 dest: '<%= yeoman.dist %>'
             }
         },
@@ -117,9 +118,9 @@ module.exports = function (grunt) {
         usemin: {
             html: ['<%= yeoman.dist %>/{,*/}*.html'],
             css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
-            options: {
-                assetsDirs: ['<%= yeoman.dist %>']
-            }
+//            options: {
+//                assetsDirs: ['<%= yeoman.dist %>', '<%= yeoman.dist %>/images']
+//            }
         },
 
         // 优化图片文件
@@ -185,6 +186,21 @@ module.exports = function (grunt) {
             }
         },
 
+        replace: {
+            dist_build_time: {
+                options: {
+                    variables: {
+                        "build-time": (new Date()).getTime().toString()
+                    },
+                    prefix: '@@'
+                },
+                expand: true,
+                cwd: '<%= yeoman.dist %>',
+                src: ['**/*.*'],
+                dest: '<%= yeoman.dist %>'
+            }
+        },
+
         // 清除文件
         clean: {
             dist: {
@@ -199,6 +215,7 @@ module.exports = function (grunt) {
                     }
                 ]
             },
+            'dist_after': '.tmp',
             server: '.tmp'
         },
 
@@ -253,7 +270,7 @@ module.exports = function (grunt) {
                             'bower_components/**/*',
                             'images/{,*/}*.{webp}',
                             'fonts/*',
-                            'scripts/{,*/}*.js',
+                            'scripts/**/*',
                         ]
                     },
                     {
@@ -285,14 +302,7 @@ module.exports = function (grunt) {
 
         // Run some tasks in parallel to speed up the build process
         concurrent: {
-            server: [
-                'copy:styles'
-            ],
-            test: [
-                'copy:styles'
-            ],
             dist: [
-                'copy:styles',
                 'imagemin',
                 'svgmin',
                 'htmlmin'
@@ -339,11 +349,13 @@ module.exports = function (grunt) {
         }
     });
 
+    grunt.registerTask('styles', ['less', 'copy:styles', 'autoprefixer']);
+    grunt.registerTask('useminBuild', ['useminPrepare', 'concat', 'ngmin', 'cssmin', 'uglify', /*'rev',*/ 'usemin']);
 
     // 启动开发的Web Server
     grunt.registerTask('server', [
         'clean:server',
-        'concurrent:server',
+        'copy:styles',
         'connect:static',
         'configureProxies:server',
         'connect:server',
@@ -354,22 +366,18 @@ module.exports = function (grunt) {
     // 发布
     grunt.registerTask('build', [
         'clean:dist',
-        'useminPrepare',
+        'styles',
         'concurrent:dist',
-        'autoprefixer',
-        'concat',
-        'ngmin',
         'copy:dist',
-        'cssmin',
-        'uglify',
-        'rev',
-        'usemin'
+        'useminBuild',
+        'replace:dist_build_time',
+        'clean:dist_after'
     ]);
 
     // 测试
     grunt.registerTask('test', [
         'clean:server',
-        'concurrent:test',
+        'copy:styles',
         'autoprefixer',
         'connect:test',
         'karma'

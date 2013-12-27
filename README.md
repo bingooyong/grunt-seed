@@ -26,17 +26,19 @@ a web project seed used grunt
 #插件的使用
 
 
-##css
+##Css
 
 1. [autoprefixer] 解析CSS文件并且添加浏览器前缀到CSS规则里，使用 [Can I Use]的数据来决定哪些前缀是需要的
 
 2. [grunt-contrib-less] 编译 LESS 文件到 CSS.
+3. [grunt-contrib-cssmin] CSS压缩
 
    
 ##JS
 
 1. [grunt-contrib-uglify] 使用UglifyJS压缩JS文件
 2. [grunt-contrib-jshint] JS文件格式检查
+3. [grunt-contrib-requirejs] 使用r.js优化RequireJS工程
 
 ##Image
 
@@ -65,6 +67,7 @@ a web project seed used grunt
 10. [grunt-contrib-livereload] 自动刷新浏览器，增加F5的使用寿命，开发必备
 11. [grunt-contrib-clean] 清理无用文件
 12. [grunt-usemin] 自动合并文件，concat -> uglifyjs
+13. [grunt-replace] 替换变量 style.css?rel=@@timestamp --> style.css?rel=1388030486
 
 
 
@@ -83,8 +86,9 @@ a web project seed used grunt
 [grunt-newer]: https://github.com/tschaub/grunt-newer
 [grunt-open]: https://github.com/jsoverson/grunt-open
 
-[grunt-contrib-copy]: https://github.com/gruntjs/grunt-contrib-copy
 [grunt-rev]: https://github.com/cbas/grunt-rev
+[grunt-replace]: https://github.com/outaTiME/grunt-replace
+[grunt-contrib-copy]: https://github.com/gruntjs/grunt-contrib-copy
 [grunt-contrib-less]: https://github.com/gruntjs/grunt-contrib-less
 [grunt-contrib-clean]: https://github.com/gruntjs/grunt-contrib-clean
 [grunt-contrib-uglify]: https://github.com/gruntjs/grunt-contrib-uglify
@@ -94,5 +98,10 @@ a web project seed used grunt
 [grunt-contrib-watch]: https://github.com/gruntjs/grunt-contrib-watch
 [grunt-contrib-livereload]: https://github.com/gruntjs/grunt-contrib-livereload
 [grunt-contrib-clean]: https://github.com/gruntjs/grunt-contrib-clean
+[grunt-contrib-cssmin]: https://github.com/gruntjs/grunt-contrib-cssmin
 [grunt-usemin]: https://github.com/yeoman/grunt-usemin
 [grunt-karma]: https://github.com/karma-runner/grunt-karma
+[grunt-contrib-requirejs]: https://github.com/gruntjs/grunt-contrib-requirejs
+
+
+[grunt-recess]: https://github.com/sindresorhus/grunt-recess

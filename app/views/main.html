@@ -1,9 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>@@build-time</title>
+
+    <!-- build:css({.tmp,app}) ../styles/main.css -->
+    <link rel="stylesheet" href="../styles/main.css">
+    <!-- endbuild -->
+
+    <script src="../scripts/index/app.js" type="application/javascript"></script>
 </head>
 <body>
+<!-- build:js scripts/test/test.js -->
+<script type="text/javascript" src="scripts/test/test1.js"></script>
+<script type="text/javascript" src="scripts/test/test2.js"></script>
+<script type="text/javascript" src="scripts/test/test3.js"></script>
+<!-- endbuild -->
 
+<img src="../images/BC3-Icon-102507.png" width="200" height="200"/>
 </body>
 </html>
