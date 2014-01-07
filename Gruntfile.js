@@ -24,7 +24,8 @@ module.exports = function (grunt) {
         yeoman: {
             // configurable paths
             app: require('./bower.json').appPath || 'app',
-            dist: 'dist'
+            dist: 'dist',
+            tempDir: '.tmp'
         },
 
         pkg: grunt.file.readJSON('package.json'),
@@ -255,6 +256,36 @@ module.exports = function (grunt) {
             }
         },
 
+        requireJSOptimise: 'uglify2',
+        requirejs: {
+            compile: {
+                options: {
+                    appDir: '<%= yeoman.app %>/scripts/',
+                    baseUrl: '.',
+                    keepBuildDir: true,
+                    generateSourceMaps: false,
+                    optimize: '<%= requireJSOptimise %>',
+                    uglify2: {
+                        output: {
+                            beautify: true
+                        },
+                        mangle: true
+                    },
+                    mainConfigFile: '<%= yeoman.app %>/scripts/config.js',
+                    preserveLicenseComments: false,
+                    dir: '<%= yeoman.dist %>/scripts/',
+                    modules: [
+                        {
+                            name: 'todomvc/main'
+                        }
+                    ],
+                    findNestedDependencies: true,
+                    fileExclusionRegExp: /^\./,
+                    inlineText: true
+                }
+            }
+        },
+
         // Copies remaining files to places other tasks can use
         copy: {
             dist: {
@@ -349,11 +380,18 @@ module.exports = function (grunt) {
         }
     });
 
+
+    grunt.registerTask('scripts', ['ngmin', 'requirejs']);
     grunt.registerTask('styles', ['less', 'copy:styles', 'autoprefixer']);
     grunt.registerTask('useminBuild', ['useminPrepare', 'concat', 'ngmin', 'cssmin', 'uglify', /*'rev',*/ 'usemin']);
 
+    grunt.registerTask('setup-dev', 'Development related settings', function () {
+        grunt.config.set('requireJSOptimise', 'none');
+    });
+
     // 启动开发的Web Server
     grunt.registerTask('server', [
+        'setup-dev',
         'clean:server',
         'copy:styles',
         'connect:static',
@@ -369,6 +407,7 @@ module.exports = function (grunt) {
         'styles',
         'concurrent:dist',
         'copy:dist',
+        'scripts',
         'useminBuild',
         'replace:dist_build_time',
         'clean:dist_after'
