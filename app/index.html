@@ -72,9 +72,11 @@
 		<script src="bower_components/todomvc-common/base.js"></script>
 
         <script src="bower_components/requirejs/require.js"></script>
-        <script src="scripts/config.js"></script>
-        <script src="scripts/todomvc/main.js"></script>
-
+        <script>
+            require(['scripts/common'], function (common) {
+                require(['todomvc/main']);
+            });
+        </script>
 
 	</body>
 </html>

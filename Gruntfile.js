@@ -271,12 +271,24 @@ module.exports = function (grunt) {
                         },
                         mangle: true
                     },
-                    mainConfigFile: '<%= yeoman.app %>/scripts/config.js',
+                    mainConfigFile: '<%= yeoman.app %>/scripts/common.js',
                     preserveLicenseComments: false,
                     dir: '<%= yeoman.dist %>/scripts/',
                     modules: [
+
+                        //First set up the common build layer.
                         {
-                            name: 'todomvc/main'
+                            //module names are relative to baseUrl
+                            name: 'common',
+                            //List common dependencies here. Only need to list
+                            //top level dependencies, "include" will find
+                            //nested dependencies.
+                            include: ['jQuery', 'angular']
+                        },
+
+                        {
+                            name: 'todomvc/main',
+                            exclude: ['common']
                         }
                     ],
                     findNestedDependencies: true,
