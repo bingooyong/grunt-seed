@@ -4,6 +4,11 @@ grunt-seed
 a web project seed used grunt
 
 
+#安装Grunt
+
+    npm install -g grunt-cli
+
+进入到下载的代码目录执行以下命令
 
 #安装插件
 
